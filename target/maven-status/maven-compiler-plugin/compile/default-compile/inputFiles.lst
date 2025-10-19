@@ -1,0 +1,15 @@
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\model\Payslip.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\model\Employee.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\repository\EmployeeRepository.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\security\SecurityConfig.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\repository\PayslipRepository.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\controller\EmployeeController.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\repository\package-info.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\repository\UserRepository.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\repository\StressEntryRepository.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\StressPayrollApplication.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\controller\HrController.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\service\PayrollService.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\model\User.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\controller\AuthController.java
+C:\Projects\stress-payroll\src\main\java\com\example\stresspayroll\model\StressEntry.java
