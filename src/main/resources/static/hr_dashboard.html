@@ -1,15 +1,82 @@
-<!doctype html>
-<html>
-<head><meta charset="utf-8"><title>HR Dashboard</title><link rel="stylesheet" href="/css/styles.css"></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard - StressPayroll</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
 <body>
-  <main>
-    <h2>HR Dashboard (API demo)</h2>
-    <p>Use HTTP Basic auth with an HR account to access /api/hr endpoints.</p>
-    <ul>
-      <li>GET /api/hr/employees</li>
-      <li>GET /api/hr/employee/{id}/payslips</li>
-      <li>GET /api/hr/employee/{id}/stress</li>
-    </ul>
-  </main>
+    <nav class="dashboard-nav">
+        <div class="container">
+            <div class="nav-brand">StressPayroll - HR Portal</div>
+            <div class="nav-info">
+                <span id="hrName"></span>
+                <button onclick="logout()" class="btn btn-secondary btn-sm">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="showSection('overview')" class="active">Overview</a></li>
+                <li><a href="#" onclick="showSection('employees')">All Employees</a></li>
+                <li><a href="#" onclick="showSection('analytics')">Stress Analytics</a></li>
+            </ul>
+        </aside>
+
+        <main class="dashboard-content">
+            <div id="overview-section" class="section active">
+                <h2>HR Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Employees</h3>
+                        <p class="stat-value" id="totalEmployees">0</p>
+                    </div>
+                    <div class="stat-card critical">
+                        <h3>Critical Stress</h3>
+                        <p class="stat-value" id="criticalStress">0</p>
+                    </div>
+                    <div class="stat-card warning">
+                        <h3>High Stress</h3>
+                        <p class="stat-value" id="highStress">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Need Counseling</h3>
+                        <p class="stat-value" id="needCounseling">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="employees-section" class="section">
+                <h2>Employee Directory</h2>
+                <div id="employeesList" class="table-container"></div>
+            </div>
+
+            <div id="analytics-section" class="section">
+                <h2>Stress Analytics</h2>
+                <div class="chart-container">
+                    <canvas id="analyticsChart"></canvas>
+                </div>
+            </div>
+
+            <div id="employee-detail-section" class="section">
+                <button onclick="showSection('employees')" class="btn btn-secondary">Back to Employees</button>
+                <h2 id="detailEmployeeName"></h2>
+                <div class="detail-tabs">
+                    <button onclick="showDetailTab('info')" class="tab-btn active">Employee Info</button>
+                    <button onclick="showDetailTab('payslips')" class="tab-btn">Payslips</button>
+                    <button onclick="showDetailTab('stress')" class="tab-btn">Stress History</button>
+                </div>
+                <div id="detail-info" class="tab-content active"></div>
+                <div id="detail-payslips" class="tab-content"></div>
+                <div id="detail-stress" class="tab-content"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/hr_dashboard.js"></script>
 </body>
 </html>

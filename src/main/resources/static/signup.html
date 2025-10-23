@@ -1,28 +1,110 @@
-<!doctype html>
-<html>
-<head><meta charset="utf-8"><title>Sign up</title><link rel="stylesheet" href="/css/styles.css"></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - StressPayroll</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
 <body>
-  <main>
-    <h2>Sign up</h2>
-    <form id="signupForm">
-      <label>Full name<input name="fullName" required></label><br>
-      <label>Email<input name="email" required type="email"></label><br>
-      <label>Username<input name="username" required></label><br>
-      <label>Password<input name="password" required type="password"></label><br>
-      <label>Base salary<input name="baseSalary" type="number" value="30000"></label><br>
-      <button type="submit">Sign up</button>
-    </form>
-    <pre id="out"></pre>
+    <div class="auth-page">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Create Account</h1>
+                <p>Join our stress-free payroll system</p>
+            </div>
+
+            <form id="signupForm" class="auth-form">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Create a password">
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input type="text" id="department" name="department" placeholder="Engineering">
+                </div>
+
+                <div class="form-group">
+                    <label for="designation">Designation</label>
+                    <input type="text" id="designation" name="designation" placeholder="Software Engineer">
+                </div>
+
+                <div class="form-group">
+                    <label for="baseSalary">Base Salary</label>
+                    <input type="number" id="baseSalary" name="baseSalary" value="50000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role">
+                        <option value="EMPLOYEE">Employee</option>
+                        <option value="HR">HR</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+
+                <div id="error-message" class="error-message" style="display: none;"></div>
+                <div id="success-message" class="success-message" style="display: none;"></div>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="/login.html">Login</a></p>
+                <p><a href="/">Back to home</a></p>
+            </div>
+        </div>
+    </div>
+
     <script>
-      const form = document.getElementById('signupForm');
-      form.addEventListener('submit', async (e)=> {
-        e.preventDefault();
-        const data = Object.fromEntries(new FormData(form).entries());
-        const res = await fetch('/api/auth/signup', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)});
-        const j = await res.json();
-        document.getElementById('out').textContent = JSON.stringify(j, null, 2);
-      });
+        const form = document.getElementById('signupForm');
+        const errorDiv = document.getElementById('error-message');
+        const successDiv = document.getElementById('success-message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    successDiv.textContent = 'Account created successfully! Redirecting to login...';
+                    successDiv.style.display = 'block';
+                    setTimeout(() => {
+                        window.location.href = '/login.html';
+                    }, 2000);
+                } else {
+                    errorDiv.textContent = result.error || 'Signup failed';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        });
     </script>
-  </main>
 </body>
 </html>

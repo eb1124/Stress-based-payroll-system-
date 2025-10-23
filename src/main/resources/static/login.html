@@ -1,12 +1,84 @@
-<!doctype html>
-<html>
-<head><meta charset="utf-8"><title>Login</title><link rel="stylesheet" href="/css/styles.css"></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - StressPayroll</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
 <body>
-  <main>
-    <h2>Login (HTTP Basic)</h2>
-    <p>This demo uses HTTP Basic auth. Use an API client or browser prompt to login. You can also signup from the signup page.</p>
-    <a href="/signup.html">Sign up</a>
-    <p>After signup, use your username/password in API calls.</p>
-  </main>
+    <div class="auth-page">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Login to access your dashboard</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+
+                <div id="error-message" class="error-message" style="display: none;"></div>
+            </form>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="/signup.html">Sign up</a></p>
+                <p><a href="/">Back to home</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const errorDiv = document.getElementById('error-message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorDiv.style.display = 'none';
+
+            const formData = new FormData(form);
+            const data = {
+                email: formData.get('email'),
+                password: formData.get('password')
+            };
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('user', JSON.stringify(result));
+
+                    if (result.role === 'HR') {
+                        window.location.href = '/hr_dashboard.html';
+                    } else {
+                        window.location.href = '/employee_dashboard.html';
+                    }
+                } else {
+                    errorDiv.textContent = result.error || 'Login failed';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>

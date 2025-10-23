@@ -1,15 +1,128 @@
-<!doctype html>
-<html>
-<head><meta charset="utf-8"><title>Employee Dashboard</title><link rel="stylesheet" href="/css/styles.css"></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - StressPayroll</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
 <body>
-  <main>
-    <h2>Employee Dashboard (API demo)</h2>
-    <p>Use an API client with HTTP Basic auth to call the endpoints below.</p>
-    <ul>
-      <li>POST /api/employee/payslip  -> create payslip</li>
-      <li>GET /api/employee/payslips -> list payslips</li>
-      <li>GET /api/employee/payslip/download/{id} -> download payslip and increment paper saved</li>
-    </ul>
-  </main>
+    <nav class="dashboard-nav">
+        <div class="container">
+            <div class="nav-brand">StressPayroll</div>
+            <div class="nav-info">
+                <span id="employeeName"></span>
+                <button onclick="logout()" class="btn btn-secondary btn-sm">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="showSection('overview')" class="active">Overview</a></li>
+                <li><a href="#" onclick="showSection('generate')">Generate Payslip</a></li>
+                <li><a href="#" onclick="showSection('payslips')">My Payslips</a></li>
+                <li><a href="#" onclick="showSection('stress')">Stress Dashboard</a></li>
+            </ul>
+        </aside>
+
+        <main class="dashboard-content">
+            <div id="overview-section" class="section active">
+                <h2>Welcome to Your Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Payslips</h3>
+                        <p class="stat-value" id="totalPayslips">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Current Stress Level</h3>
+                        <p class="stat-value" id="currentStress">N/A</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Paper Saved</h3>
+                        <p class="stat-value" id="paperSaved">0g</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="generate-section" class="section">
+                <h2>Generate Monthly Payslip</h2>
+                <form id="payslipForm" class="form-card">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="month">Month</label>
+                            <select id="month" required>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year</label>
+                            <input type="number" id="year" value="2025" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="overtimeHours">Overtime Hours</label>
+                            <input type="number" id="overtimeHours" value="0" step="0.5" required>
+                            <small>How many hours of overtime did you work?</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="workingDays">Total Working Days</label>
+                            <input type="number" id="workingDays" value="22" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="daysPresent">Days Present</label>
+                            <input type="number" id="daysPresent" value="22" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="paidLeavesTaken">Paid Leaves Taken</label>
+                            <input type="number" id="paidLeavesTaken" value="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unpaidLeavesTaken">Unpaid Leaves Taken</label>
+                        <input type="number" id="unpaidLeavesTaken" value="0" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Generate Payslip</button>
+                </form>
+
+                <div id="payslipResult" class="result-card" style="display: none;"></div>
+            </div>
+
+            <div id="payslips-section" class="section">
+                <h2>My Payslips</h2>
+                <div id="payslipsList" class="table-container"></div>
+            </div>
+
+            <div id="stress-section" class="section">
+                <h2>Stress Level Dashboard</h2>
+                <div class="chart-container">
+                    <canvas id="stressChart"></canvas>
+                </div>
+                <div id="stressAnalysis" class="analysis-card"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/employee_dashboard.js"></script>
 </body>
 </html>
